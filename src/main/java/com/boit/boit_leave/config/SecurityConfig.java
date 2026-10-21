@@ -116,7 +116,8 @@ public class SecurityConfig {
                         "http://localhost",        // Capacitor Android (http)
                         "https://localhost",       // Capacitor Android (androidScheme=https)
                         "capacitor://localhost",   // Capacitor iOS
-                        "ionic://localhost"
+                        "ionic://localhost",
+                        "https://leavex-ui.onrender.com"
                         // add your production web domain here, e.g. "https://leave.yourcompany.com"
                 ));
 
