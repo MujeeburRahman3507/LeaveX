@@ -118,7 +118,8 @@ public class SecurityConfig {
                         "capacitor://localhost",   // Capacitor iOS
                         "ionic://localhost",
                         "https://leavex-ui.onrender.com",
-                        "https://leavex-mobile-ui.onrender.com"
+                        "https://leavex-mobile-ui.onrender.com",
+                        "https://leavex-final-ui.onrender.com"
                         // add your production web domain here, e.g. "https://leave.yourcompany.com"
                 ));
 
