@@ -35,19 +35,30 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS))
 
+                // Not logged in / expired token on a protected endpoint -> 401
+                // (the app then logs the user out cleanly instead of showing errors)
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter().write(
+                                    "{\"success\":false,\"message\":\"Session expired. Please login again.\"}");
+                        })
+                )
+
                 .authorizeHttpRequests(auth -> auth
-                		
-                		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         .requestMatchers(
                                 "/api/auth/**"
                         ).permitAll()
-                        
+
                         // Public endpoints for secure email action tokens//
                         .requestMatchers(
                                 "/api/leave-action/**"
                         ).permitAll()
-                       
+
 
                         .requestMatchers(
                                 "/error"
@@ -66,26 +77,27 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/leave/**")
                         .authenticated()
-                        
+
                         .requestMatchers("/api/reports/**")
                         .hasRole("ADMIN")
-                        
+
+                        // AI endpoints use your OpenAI key: logged-in users only
                         .requestMatchers("/api/ai/**")
-                        .permitAll()
-                        
+                        .authenticated()
+
                         .requestMatchers("/api/notifications/**")
                         .authenticated()
-                        
+
                         .requestMatchers("/api/holidays/**")
                         .authenticated()
-                        
+
                         .requestMatchers(
-                        	    "/uploads/profile-images/**"
-                        	).permitAll()
-                        
+                                "/uploads/profile-images/**"
+                        ).permitAll()
+
                         .requestMatchers("/api/appraisals/**")
                         .hasRole("ADMIN")
-                        
+
 //                        .requestMatchers(
 //                        	    "/uploads/**"
 //                        	).permitAll()
